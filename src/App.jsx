@@ -4,12 +4,12 @@ import commonAPI from './services/commonAPI';
 import serverURL from './services/serverURL';
 
 const App = () => {
-  const [todos, setTodos] = useState([]); // All tasks
-  const [input, setInput] = useState(''); // Input field
-  const [isEditing, setIsEditing] = useState(false); // Edit mode toggle
-  const [currentTodo, setCurrentTodo] = useState(null); // Todo being edited
+  const [todos, setTodos] = useState([]); 
+  const [input, setInput] = useState(''); 
+  const [isEditing, setIsEditing] = useState(false); 
+  const [currentTodo, setCurrentTodo] = useState(null); 
 
-  // Fetch all todos from the server
+  
   useEffect(() => {
     const fetchTodos = async () => {
       const response = await commonAPI('GET', `${serverURL}/task`);
@@ -22,12 +22,12 @@ const App = () => {
     fetchTodos();
   }, []);
 
-  // Add or Update a todo
+  
   const handleAddOrUpdateTodo = async () => {
     if (input.trim() === '') return;
 
     if (isEditing) {
-      // Update the todo
+      
       const updatedTodo = { ...currentTodo, text: input };
       const response = await commonAPI(
         'PUT',
@@ -44,7 +44,7 @@ const App = () => {
         setCurrentTodo(null);
       }
     } else {
-      // Add a new todo
+    
       const newTodo = { id: Date.now(), text: input };
       const response = await commonAPI('POST', `${serverURL}/task`, newTodo);
       if (response) {
@@ -52,17 +52,17 @@ const App = () => {
       }
     }
 
-    setInput(''); // Clear input field
+    setInput(''); 
   };
 
-  // Edit a todo
+  // Edit 
   const handleEditTodo = (todo) => {
     setIsEditing(true);
     setCurrentTodo(todo);
     setInput(todo.text);
   };
 
-  // Delete a todo
+  
   const handleDeleteTodo = async (id) => {
     const response = await commonAPI('DELETE', `${serverURL}/task/${id}`);
     if (response) {
